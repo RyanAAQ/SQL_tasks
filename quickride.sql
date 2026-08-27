@@ -1,0 +1,106 @@
+-- QuickRide ride-hailing database (Chapter 2 SQL practice)
+-- Run this whole file in MySQL to build the database, then answer the questions.
+
+DROP DATABASE IF EXISTS quickride;
+CREATE DATABASE quickride;
+USE quickride;
+
+CREATE TABLE drivers (
+  driver_id     INT PRIMARY KEY,
+  driver_name   VARCHAR(50)  NOT NULL,
+  home_city     VARCHAR(30)  NOT NULL,
+  vehicle_type  VARCHAR(20)  NOT NULL,
+  join_date     DATE         NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE trips (
+  trip_id        INT PRIMARY KEY,
+  trip_date      DATE           NOT NULL,
+  city           VARCHAR(30)    NOT NULL,
+  vehicle_type   VARCHAR(20)    NOT NULL,
+  driver_id      INT            NOT NULL,
+  rider_name     VARCHAR(50)    NOT NULL,
+  distance_km    DECIMAL(5,1)   NOT NULL,
+  duration_min   INT            NOT NULL,
+  fare           DECIMAL(8,2)   NOT NULL,
+  payment_method VARCHAR(20)    NOT NULL,
+  rating         DECIMAL(2,1),
+  status         VARCHAR(20)    NOT NULL,
+  CONSTRAINT fk_driver FOREIGN KEY (driver_id) REFERENCES drivers(driver_id)
+) ENGINE=InnoDB;
+
+INSERT INTO drivers (driver_id, driver_name, home_city, vehicle_type, join_date) VALUES
+(1, 'Emeka Okafor', 'Port Harcourt', 'Bike', '2023-05-08'),
+(2, 'Aisha Bello', 'Lagos', 'Comfort', '2023-11-24'),
+(3, 'Tunde Adeyemi', 'Ibadan', 'Bike', '2023-07-02'),
+(4, 'Ngozi Eze', 'Lagos', 'Bike', '2023-09-20'),
+(5, 'Bola Ogun', 'Lagos', 'Bike', '2023-11-23'),
+(6, 'Ibrahim Musa', 'Abuja', 'Bike', '2023-10-09'),
+(7, 'Chinedu Obi', 'Ibadan', 'Bike', '2023-03-23'),
+(8, 'Fatima Sani', 'Abuja', 'Bike', '2023-04-25'),
+(9, 'Segun Alabi', 'Lagos', 'Bike', '2023-02-12'),
+(10, 'Uche Nwosu', 'Ibadan', 'Economy', '2023-01-24'),
+(11, 'Yusuf Danjuma', 'Abuja', 'Bike', '2023-07-03'),
+(12, 'Grace Etim', 'Abuja', 'Comfort', '2023-10-28');
+
+INSERT INTO trips (trip_id, trip_date, city, vehicle_type, driver_id, rider_name, distance_km, duration_min, fare, payment_method, rating, status) VALUES
+(1001, '2024-02-25', 'Abuja', 'Comfort', 6, 'Amara Lawal', 0.0, 0, 0.0, 'Card', NULL, 'Cancelled'),
+(1002, '2024-03-06', 'Ibadan', 'Economy', 4, 'Emmanuel Lawal', 7.0, 34, 2370.0, 'Card', 4.0, 'Completed'),
+(1003, '2024-06-11', 'Abuja', 'Bike', 3, 'Nkechi Ade', 6.2, 17, 1300.0, 'Wallet', NULL, 'Completed'),
+(1004, '2024-06-15', 'Ibadan', 'Economy', 10, 'Sade Okoro', 0.0, 0, 0.0, 'Card', NULL, 'Cancelled'),
+(1005, '2024-05-13', 'Abuja', 'Bike', 12, 'Tobi Okoro', 4.3, 21, 930.0, 'Card', NULL, 'Completed'),
+(1006, '2024-04-13', 'Lagos', 'Comfort', 11, 'Aminat Okeke', 6.7, 23, 3720.0, 'Cash', NULL, 'Completed'),
+(1007, '2024-03-14', 'Port Harcourt', 'Comfort', 9, 'Samuel Okeke', 0.0, 0, 0.0, 'Card', NULL, 'Cancelled'),
+(1008, '2024-05-04', 'Ibadan', 'Bike', 12, 'Musa Bello', 14.6, 51, 2300.0, 'Wallet', 3.0, 'Completed'),
+(1009, '2024-02-02', 'Lagos', 'Bike', 10, 'Ify Nnamdi', 3.1, 18, 800.0, 'Card', 4.0, 'Completed'),
+(1010, '2024-05-28', 'Port Harcourt', 'XL', 3, 'Blessing Nnamdi', 20.5, 79, 11210.0, 'Cash', 4.5, 'Completed'),
+(1011, '2024-01-11', 'Ibadan', 'Economy', 8, 'Chioma Ade', 13.6, 37, 4040.0, 'Card', 3.0, 'Completed'),
+(1012, '2024-05-05', 'Lagos', 'Bike', 6, 'Sade Ade', 13.3, 40, 2320.0, 'Cash', 3.5, 'Completed'),
+(1013, '2024-01-22', 'Abuja', 'Economy', 11, 'Emmanuel Ekwueme', 2.7, 17, 1740.0, 'Cash', 4.0, 'Completed'),
+(1014, '2024-02-28', 'Abuja', 'Economy', 9, 'Peter Balogun', 19.2, 63, 5280.0, 'Wallet', 3.0, 'Completed'),
+(1015, '2024-04-16', 'Kano', 'Comfort', 2, 'Blessing Okoro', 2.7, 12, 2270.0, 'Card', 5.0, 'Completed'),
+(1016, '2024-06-16', 'Abuja', 'XL', 5, 'Nkechi Lawal', 21.4, 75, 11550.0, 'Card', 3.0, 'Completed'),
+(1017, '2024-01-17', 'Abuja', 'XL', 10, 'Musa Bello', 13.7, 49, 8230.0, 'Card', 4.0, 'Completed'),
+(1018, '2024-05-19', 'Abuja', 'Economy', 10, 'Rita Lawal', 5.7, 22, 2160.0, 'Cash', NULL, 'Completed'),
+(1019, '2024-04-20', 'Lagos', 'Economy', 11, 'John Johnson', 3.0, 11, 1510.0, 'Wallet', 3.5, 'Completed'),
+(1020, '2024-03-20', 'Lagos', 'Bike', 4, 'Nkechi Ekwueme', 12.3, 47, 2000.0, 'Wallet', 4.0, 'Completed'),
+(1021, '2024-03-10', 'Lagos', 'Bike', 5, 'Nkechi Bello', 5.7, 23, 1290.0, 'Cash', 3.0, 'Completed'),
+(1022, '2024-03-25', 'Port Harcourt', 'Comfort', 2, 'Amara Johnson', 4.8, 21, 3010.0, 'Card', NULL, 'Completed'),
+(1023, '2024-01-27', 'Kano', 'Comfort', 2, 'Michael Umar', 10.3, 27, 4960.0, 'Card', 3.0, 'Completed'),
+(1024, '2024-05-28', 'Lagos', 'Bike', 6, 'Zainab Yakubu', 4.7, 26, 1030.0, 'Cash', 4.0, 'Completed'),
+(1025, '2024-06-28', 'Lagos', 'Comfort', 7, 'Samuel Okoro', 4.8, 21, 3180.0, 'Cash', 4.0, 'Completed'),
+(1026, '2024-02-01', 'Ibadan', 'Economy', 4, 'Halima Ade', 7.2, 24, 2500.0, 'Cash', 5.0, 'Completed'),
+(1027, '2024-03-06', 'Kano', 'Economy', 11, 'David Okeke', 2.3, 11, 1600.0, 'Cash', 3.5, 'Completed'),
+(1028, '2024-04-01', 'Ibadan', 'Bike', 7, 'Amara Ekwueme', 15.6, 67, 2540.0, 'Cash', 3.5, 'Completed'),
+(1029, '2024-03-17', 'Kano', 'Economy', 11, 'Zainab Ekwueme', 9.7, 29, 3010.0, 'Card', 5.0, 'Completed'),
+(1030, '2024-04-18', 'Port Harcourt', 'Bike', 11, 'Tobi Nnamdi', 5.8, 26, 1360.0, 'Wallet', 5.0, 'Completed'),
+(1031, '2024-01-10', 'Lagos', 'Economy', 11, 'Blessing Lawal', 8.4, 38, 2740.0, 'Cash', 4.0, 'Completed'),
+(1032, '2024-01-15', 'Lagos', 'Bike', 3, 'Sade Chukwu', 5.5, 23, 1220.0, 'Cash', NULL, 'Completed'),
+(1033, '2024-02-06', 'Lagos', 'Comfort', 12, 'Zainab Okoro', 11.0, 43, 4870.0, 'Wallet', NULL, 'Completed'),
+(1034, '2024-04-20', 'Port Harcourt', 'XL', 8, 'Aminat Yakubu', 10.2, 44, 6850.0, 'Wallet', 5.0, 'Completed'),
+(1035, '2024-04-21', 'Lagos', 'Bike', 8, 'Peter Umar', 16.1, 46, 2460.0, 'Card', 4.0, 'Completed'),
+(1036, '2024-04-14', 'Lagos', 'Comfort', 3, 'Ahmed Okeke', 2.8, 15, 2560.0, 'Card', 3.0, 'Completed'),
+(1037, '2024-04-28', 'Lagos', 'Bike', 10, 'Ify Nnamdi', 12.5, 52, 2140.0, 'Wallet', 4.0, 'Completed'),
+(1038, '2024-06-26', 'Abuja', 'Bike', 5, 'Samuel Lawal', 11.1, 32, 1950.0, 'Cash', 3.0, 'Completed'),
+(1039, '2024-01-09', 'Port Harcourt', 'Bike', 2, 'Emmanuel Bello', 8.2, 34, 1500.0, 'Card', 5.0, 'Completed'),
+(1040, '2024-03-08', 'Ibadan', 'Economy', 5, 'Nkechi Johnson', 14.9, 56, 4160.0, 'Cash', NULL, 'Completed'),
+(1041, '2024-02-15', 'Lagos', 'Economy', 3, 'Zainab Chukwu', 4.9, 23, 2170.0, 'Cash', 4.0, 'Completed'),
+(1042, '2024-06-13', 'Lagos', 'Bike', 5, 'Halima Chukwu', 3.1, 17, 870.0, 'Card', 4.5, 'Completed'),
+(1043, '2024-03-18', 'Abuja', 'Bike', 11, 'Tobi Johnson', 11.9, 41, 2000.0, 'Cash', 5.0, 'Completed'),
+(1044, '2024-02-24', 'Port Harcourt', 'Comfort', 6, 'Michael Okoro', 14.1, 62, 6010.0, 'Cash', 4.5, 'Completed'),
+(1045, '2024-04-08', 'Ibadan', 'Comfort', 6, 'John Nnamdi', 15.2, 47, 6500.0, 'Wallet', 4.0, 'Completed'),
+(1046, '2024-03-18', 'Ibadan', 'Economy', 6, 'Aminat Ekwueme', 3.3, 16, 1750.0, 'Card', 5.0, 'Completed'),
+(1047, '2024-03-08', 'Port Harcourt', 'Economy', 11, 'David Okeke', 15.1, 49, 4330.0, 'Cash', 4.5, 'Completed'),
+(1048, '2024-01-24', 'Port Harcourt', 'Bike', 6, 'Peter Ade', 0.0, 0, 0.0, 'Card', NULL, 'Cancelled'),
+(1049, '2024-06-16', 'Kano', 'Comfort', 9, 'Ahmed Ade', 17.1, 57, 7110.0, 'Card', 4.5, 'Completed'),
+(1050, '2024-01-02', 'Lagos', 'Comfort', 3, 'Michael Nnamdi', 4.1, 20, 2650.0, 'Cash', NULL, 'Completed'),
+(1051, '2024-03-28', 'Abuja', 'Economy', 5, 'Blessing Johnson', 9.7, 29, 3210.0, 'Cash', 4.5, 'Completed'),
+(1052, '2024-05-26', 'Kano', 'Bike', 2, 'Rita Chukwu', 9.3, 39, 1860.0, 'Cash', 4.5, 'Completed'),
+(1053, '2024-06-07', 'Port Harcourt', 'Economy', 10, 'Zainab Ade', 0.0, 0, 0.0, 'Card', NULL, 'Cancelled'),
+(1054, '2024-04-23', 'Lagos', 'Bike', 4, 'David Okoro', 6.2, 28, 1490.0, 'Cash', NULL, 'Completed'),
+(1055, '2024-02-14', 'Kano', 'Comfort', 4, 'Tobi Lawal', 4.6, 15, 2800.0, 'Card', 4.5, 'Completed'),
+(1056, '2024-01-15', 'Port Harcourt', 'Economy', 10, 'Halima Balogun', 20.8, 69, 5550.0, 'Cash', 5.0, 'Completed'),
+(1057, '2024-06-27', 'Lagos', 'Bike', 12, 'John Ade', 1.9, 14, 740.0, 'Wallet', NULL, 'Completed'),
+(1058, '2024-05-14', 'Abuja', 'Economy', 3, 'Peter Bello', 3.4, 13, 1680.0, 'Cash', NULL, 'Completed'),
+(1059, '2024-04-27', 'Lagos', 'Comfort', 3, 'Halima Lawal', 0.0, 0, 0.0, 'Wallet', NULL, 'Cancelled'),
+(1060, '2024-01-22', 'Lagos', 'Economy', 2, 'Kunle Umar', 2.6, 14, 1670.0, 'Wallet', 3.0, 'Completed');
