@@ -20,7 +20,7 @@ FROM trips
 WHERE payment_method = 'Card'
   AND fare > 5000;
 
--- Request 5: Trips where distance was between 5 and 10 km (inclusive)
+-- Request 5
 SELECT *
 FROM trips
 WHERE distance_km BETWEEN 5 AND 10;
